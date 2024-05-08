@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import '../../helper_dropdownlist/helper.dart';
 
 class FilterAppBar extends StatelessWidget {
+  final TextEditingController searchController;
+  final int totalName;
+  final void Function()? onPressedSearchBaby;
   final Function(dynamic)? onSelectedGender;
   final Function(dynamic)? onSelectedRashi;
   final Function(dynamic)? onSelectedAlphabet;
   const FilterAppBar(
       {super.key,
+      required this.totalName,
+      required this.searchController,
+      required this.onPressedSearchBaby,
       required this.onSelectedGender,
       required this.onSelectedRashi,
       required this.onSelectedAlphabet});
@@ -54,11 +60,12 @@ class FilterAppBar extends StatelessWidget {
                 SizedBox(
                   width: width * 0.5,
                   child: TextField(
+                    controller: searchController,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       hintText: 'Search Names',
                       suffixIcon: IconButton(
-                        onPressed: () {},
+                        onPressed: onPressedSearchBaby,
                         icon: const Icon(
                           Icons.search,
                         ),
@@ -68,9 +75,9 @@ class FilterAppBar extends StatelessWidget {
                 ),
                 SizedBox(
                   width: width * 0.4,
-                  child: const Text(
-                    'Total Names : 0',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  child: Text(
+                    'Total Names : $totalName',
+                    style: const TextStyle(fontSize: 18, color: Colors.grey),
                   ),
                 )
               ],

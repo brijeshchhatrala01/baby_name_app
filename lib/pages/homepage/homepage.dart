@@ -1,3 +1,5 @@
+import 'package:baby_name_app/pages/baby_card/name_card.dart';
+import 'package:baby_name_app/pages/homepage/drawer/custom_nav_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -14,19 +16,29 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   var showListBy = "All";
 
+  final _searchController = TextEditingController();
+
+  int babyListLength = 0;
+
   var urlBabyAll =
       'https://zoological-wafer.000webhostapp.com/baby_name/view_baby.php';
-  var urlBabyBoy =
-      'https://zoological-wafer.000webhostapp.com/baby_name/viewBoyBaby.php';
-  var urlBabyGirl =
-      'https://zoological-wafer.000webhostapp.com/baby_name/viewBabyGirl.php';
-  var urlBabyAries =
-      'https://zoological-wafer.000webhostapp.com/baby_name/FilterByRashi/ariesList.php';
+  var urlBabySearch =
+      'https://zoological-wafer.000webhostapp.com/baby_name/searchBaby.php?filterword=';
+  var urlBabyFilterByGender =
+      'https://zoological-wafer.000webhostapp.com/baby_name/filterBabyByGender.php?filterword=';
+  var urlBabyFilterByRashi =
+      'https://zoological-wafer.000webhostapp.com/baby_name/filterBabyByRashi.php?filterword=';
+  var urlBabyFilterByAlphebet =
+      'https://zoological-wafer.000webhostapp.com/baby_name/filterByAlphabet.php?filterword=';
 
   Future<List<dynamic>> getData(String babyPath) async {
     var resp = await http.get(
       Uri.parse(babyPath),
     );
+    var length = jsonDecode(resp.body);
+    setState(() {
+      babyListLength = length.length;
+    });
     return jsonDecode(resp.body);
   }
 
@@ -40,14 +52,91 @@ class _HomepageState extends State<Homepage> {
 
   Widget pass() {
     switch (showListBy) {
+      case 'searchBaby':
+        return setBabyList(
+            getData(urlBabySearch + _searchController.text.trim()));
       case 'All':
         return setBabyList(getData(urlBabyAll));
       case 'Boy':
-        return setBabyList(getData(urlBabyBoy));
+        return setBabyList(getData(urlBabyFilterByGender + showListBy));
       case 'Girl':
-        return setBabyList(getData(urlBabyGirl));
+        return setBabyList(getData(urlBabyFilterByGender + showListBy));
       case 'Aries (A,L,E)':
-        return setBabyList(getData(urlBabyAries));
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Aquaris (G,S)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Capricon (J,K)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Cancer (D,H)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Gemini (G,K)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Leo (M,T)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Libra (R,T)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Pisces (C,D,J,T)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Sagittarius (B,D,P)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Scorpio (N,Y)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Taurus (B,U,V)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'Virgo (P,T)':
+        return setBabyList(getData(urlBabyFilterByRashi + showListBy));
+      case 'A':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'B':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'C':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'D':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'E':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'F':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'G':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'H':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'I':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'J':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'K':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'L':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'M':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'N':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'O':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'P':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'Q':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'R':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'S':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'T':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'U':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'V':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'W':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'X':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'Y':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
+      case 'Z':
+        return setBabyList(getData(urlBabyFilterByAlphebet + showListBy));
       default:
         return setBabyList(getData(urlBabyAll));
     }
@@ -71,20 +160,37 @@ class _HomepageState extends State<Homepage> {
           ),
         ],
       ),
+      drawer: const CustomNavDrawer(),
       body: Column(
         children: [
           FilterAppBar(
-            onSelectedAlphabet: (p0) => null,
+            searchController: _searchController,
+            onPressedSearchBaby: () {
+              setState(() {
+                if (_searchController.text.isNotEmpty) {
+                  showListBy = 'searchBaby';
+                }
+              });
+            },
+            onSelectedAlphabet: (alphabet) {
+              setState(() {
+                showListBy = alphabet;
+                _searchController.clear();
+              });
+            },
             onSelectedGender: (gender) {
               setState(() {
                 showListBy = gender;
+                _searchController.clear();
               });
             },
             onSelectedRashi: (rashi) {
               setState(() {
                 showListBy = rashi;
+                _searchController.clear();
               });
             },
+            totalName: babyListLength,
           ),
           pass()
         ],
@@ -93,17 +199,34 @@ class _HomepageState extends State<Homepage> {
   }
 }
 
-class BabyList extends StatelessWidget {
+class BabyList extends StatefulWidget {
   final Future<List<dynamic>> future;
   const BabyList({super.key, required this.future});
 
   @override
+  State<BabyList> createState() => _BabyListState();
+}
+
+class _BabyListState extends State<BabyList> {
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: future,
+      future: widget.future,
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.hasData) {
           return _babyListBuilder(babyList: snapshot.data!);
+        }
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error.toString()),
+          );
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.blue.shade500,
+            ),
+          );
         }
         return Center(
           child: CircularProgressIndicator(
@@ -124,9 +247,7 @@ class BabyList extends StatelessWidget {
         'is_favorite': is_favorite,
         'baby_name': baby_name,
       });
-      print(baby_name);
-      print(is_favorite);
-      print('in favorite method');
+      //print('in favorite method');
     }
 
     return CustomScrollView(
@@ -137,6 +258,19 @@ class BabyList extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               child: ListTile(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return NameCard(
+                          name: babyList[index]['baby_name'],
+                          meaning: babyList[index]['meaning'],
+                          gender: babyList[index]['gender'],
+                          religion: babyList[index]['religion'],
+                          isFavorite: babyList[index]['is_favorite']);
+                    },
+                  );
+                },
                 tileColor: babyList[index]['gender'] == 'Boy'
                     ? Colors.blue.shade200
                     : Colors.pink.shade200,
@@ -145,16 +279,19 @@ class BabyList extends StatelessWidget {
                 ),
                 trailing: IconButton(
                     onPressed: () {
-                      toggleFavorite(
-                          babyList[index]['baby_name'],
-                          babyList[index]['is_favorite'] == 'false'
-                              ? 'true'
-                              : 'false');
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Homepage(),
-                          ));
+                      setState(() {
+                        toggleFavorite(
+                            babyList[index]['baby_name'],
+                            babyList[index]['is_favorite'] == 'false'
+                                ? 'true'
+                                : 'false');
+                      });
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const Homepage(),
+                      //   ),
+                      // );
                     },
                     icon: babyList[index]['is_favorite'] == "true"
                         ? const Icon(Icons.favorite)
