@@ -1,5 +1,9 @@
+import 'package:baby_name_app/pages/show_by_religion/show_by_religion.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
+import '../../favotite_baby/favorite_baby.dart';
 import '../../rashi_page/rashi_page.dart';
 
 class CustomNavDrawer extends StatelessWidget {
@@ -46,20 +50,22 @@ class CustomNavDrawer extends StatelessWidget {
             title: const Text('R A S H I'),
           ),
           ListTile(
+            onTap: () => showReligionDialogue(context),
             leading: Image.asset(
               'assets/images/religion.png',
               width: 28,
               height: 28,
             ),
-            title: Text('R E L I G I O N'),
+            title: const Text('R E L I G I O N'),
           ),
           ListTile(
+            onTap: () => goToFavorite(context),
             leading: Image.asset(
               'assets/images/favorite.png',
               width: 28,
               height: 28,
             ),
-            title: Text('F A V O R I T'),
+            title: const Text('F A V O R I T'),
           ),
           ListTile(
             leading: Image.asset(
@@ -67,7 +73,7 @@ class CustomNavDrawer extends StatelessWidget {
               width: 28,
               height: 28,
             ),
-            title: Text('S H A R E'),
+            title: const Text('S H A R E'),
           ),
           ListTile(
             leading: Image.asset(
@@ -75,10 +81,118 @@ class CustomNavDrawer extends StatelessWidget {
               width: 28,
               height: 28,
             ),
-            title: Text('D E V E L O P E R'),
+            title: const Text('D E V E L O P E R'),
           ),
         ],
       ),
     );
   }
+
+  Future<void> showReligionDialogue(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+            title: const Text('Select Any Religion'),
+            content: Builder(
+              builder: (context) {
+                var height = MediaQuery.of(context).size.height;
+                return SizedBox(
+                  height: height * 0.2,
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          goToShowByReligion(context, 'Hindu');
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              'assets/images/hindu.png',
+                              width: 40,
+                              height: 40,
+                            ),
+                            const Text('Hindu')
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          goToShowByReligion(context, 'Muslim');
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              'assets/images/muslim.png',
+                              width: 40,
+                              height: 40,
+                            ),
+                            const Text('Muslim')
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          goToShowByReligion(context, 'Sikh');
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              'assets/images/sikh.png',
+                              width: 40,
+                              height: 40,
+                            ),
+                            const Text('Sikh')
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          goToShowByReligion(context, 'Others');
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              'assets/images/others.png',
+                              width: 40,
+                              height: 40,
+                            ),
+                            const Text('Others')
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ));
+      },
+    );
+  }
+
+  void goToShowByReligion(BuildContext context, String religion) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ShowByReligion(
+            url:
+                'https://zoological-wafer.000webhostapp.com/baby_name/showBabyByReligion.php?filterword=$religion'),
+      ),
+    );
+  }
+}
+
+goToFavorite(BuildContext context) {
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const FavoriteBaby(
+          url:
+              'https://zoological-wafer.000webhostapp.com/baby_name/favoriteBaby.php',
+        ),
+      ));
 }

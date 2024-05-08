@@ -23,8 +23,7 @@ class NameCard extends StatefulWidget {
 }
 
 class _NameCardState extends State<NameCard> {
-
-   void toggleFavorite(String baby_name, String is_favorite) async {
+  void toggleFavorite(String baby_name, String is_favorite) async {
     var url = Uri.parse(
       'https://zoological-wafer.000webhostapp.com/baby_name/add_favorite.php',
     );
@@ -44,25 +43,22 @@ class _NameCardState extends State<NameCard> {
         children: [
           Text(widget.name),
           IconButton(
-                            onPressed: () {
-                              setState(() {
-                                toggleFavorite(
-                                    widget.name,
-                                    widget.isFavorite == 'false'
-                                        ? 'true'
-                                        : 'false');
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Homepage(),
-                                  ),
-                                );
-                              });
-                            },
-                            icon: widget.isFavorite == 'true'
-                                ? const Icon(Icons.favorite)
-                                : const Icon(Icons.favorite_border_outlined),
-                          ),
+            onPressed: () {
+              setState(() {
+                toggleFavorite(widget.name,
+                    widget.isFavorite == 'false' ? 'true' : 'false');
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Homepage(),
+                  ),
+                );
+              });
+            },
+            icon: widget.isFavorite == 'true'
+                ? const Icon(Icons.favorite)
+                : const Icon(Icons.favorite_border_outlined),
+          ),
         ],
       ),
       content: Column(

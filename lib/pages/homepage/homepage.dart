@@ -1,3 +1,4 @@
+import 'package:baby_name_app/pages/add_name/add_name.dart';
 import 'package:baby_name_app/pages/baby_card/name_card.dart';
 import 'package:baby_name_app/pages/homepage/drawer/custom_nav_drawer.dart';
 import 'package:flutter/material.dart';
@@ -149,18 +150,26 @@ class _HomepageState extends State<Homepage> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         title: const Text('Baby Names'),
-        actions: const [
-          IconButton(
+        actions:  [
+          const IconButton(
             onPressed: null,
             icon: Icon(Icons.refresh),
           ),
           IconButton(
-            onPressed: null,
-            icon: Icon(Icons.favorite_border_outlined),
+            onPressed: () => goToFavorite(context),
+            icon: const Icon(Icons.favorite_border_outlined),
           ),
         ],
       ),
       drawer: const CustomNavDrawer(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => goToAddBaby(),
+        child: Image.asset(
+          'assets/images/baby_name.png',
+          width: 42,
+          height: 42,
+        ),
+      ),
       body: Column(
         children: [
           FilterAppBar(
@@ -196,6 +205,14 @@ class _HomepageState extends State<Homepage> {
         ],
       ),
     );
+  }
+
+  goToAddBaby() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AddName(),
+        ));
   }
 }
 
@@ -263,11 +280,12 @@ class _BabyListState extends State<BabyList> {
                     context: context,
                     builder: (context) {
                       return NameCard(
-                          name: babyList[index]['baby_name'],
-                          meaning: babyList[index]['meaning'],
-                          gender: babyList[index]['gender'],
-                          religion: babyList[index]['religion'],
-                          isFavorite: babyList[index]['is_favorite']);
+                        name: babyList[index]['baby_name'],
+                        meaning: babyList[index]['meaning'],
+                        gender: babyList[index]['gender'],
+                        religion: babyList[index]['religion'],
+                        isFavorite: babyList[index]['is_favorite'],
+                      );
                     },
                   );
                 },
@@ -278,24 +296,19 @@ class _BabyListState extends State<BabyList> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 trailing: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        toggleFavorite(
-                            babyList[index]['baby_name'],
-                            babyList[index]['is_favorite'] == 'false'
-                                ? 'true'
-                                : 'false');
-                      });
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const Homepage(),
-                      //   ),
-                      // );
-                    },
-                    icon: babyList[index]['is_favorite'] == "true"
-                        ? const Icon(Icons.favorite)
-                        : const Icon(Icons.favorite_border_outlined)),
+                  onPressed: () {
+                    setState(() {
+                      toggleFavorite(
+                          babyList[index]['baby_name'],
+                          babyList[index]['is_favorite'] == 'false'
+                              ? 'true'
+                              : 'false');
+                    });
+                  },
+                  icon: babyList[index]['is_favorite'] == "true"
+                      ? const Icon(Icons.favorite)
+                      : const Icon(Icons.favorite_border_outlined),
+                ),
                 title: Text(babyList[index]['baby_name']),
                 subtitle: Text(babyList[index]['meaning']),
               ),
