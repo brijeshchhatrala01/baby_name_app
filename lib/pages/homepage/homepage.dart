@@ -150,9 +150,13 @@ class _HomepageState extends State<Homepage> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         title: const Text('Baby Names'),
-        actions:  [
-          const IconButton(
-            onPressed: null,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                pass();
+              });
+            },
             icon: Icon(Icons.refresh),
           ),
           IconButton(

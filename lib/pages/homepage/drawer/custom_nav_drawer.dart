@@ -1,7 +1,7 @@
 import 'package:baby_name_app/pages/show_by_religion/show_by_religion.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:share_it/share_it.dart';
 
 import '../../favotite_baby/favorite_baby.dart';
 import '../../rashi_page/rashi_page.dart';
@@ -68,6 +68,7 @@ class CustomNavDrawer extends StatelessWidget {
             title: const Text('F A V O R I T'),
           ),
           ListTile(
+            onTap: () => shareApp(),
             leading: Image.asset(
               'assets/images/share.png',
               width: 28,
@@ -76,6 +77,7 @@ class CustomNavDrawer extends StatelessWidget {
             title: const Text('S H A R E'),
           ),
           ListTile(
+            onTap: () => showAboutDeveloper(context),
             leading: Image.asset(
               'assets/images/developer.png',
               width: 28,
@@ -182,6 +184,35 @@ class CustomNavDrawer extends StatelessWidget {
             url:
                 'https://zoological-wafer.000webhostapp.com/baby_name/showBabyByReligion.php?filterword=$religion'),
       ),
+    );
+  }
+
+  showAboutDeveloper(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AboutDialog(
+          applicationIcon: Image.asset(
+            'assets/logo.png',
+            width: 82,
+            height: 82,
+          ),
+          applicationName: 'Baby Names App',
+          applicationVersion: '1.0',
+          children: const [
+            Text(
+                'By Brijesh Chhatrala Developed \nUnder Assesement Programs \nOf Tops Technologies.')
+          ],
+        );
+      },
+    );
+  }
+
+  shareApp() async {
+    ShareIt.text(
+      content:
+          '\tDownload This App From \n\thttps://github.com/brijeshchhatrala01/baby_name_app',
+      androidSheetTitle: 'Share App',
     );
   }
 }

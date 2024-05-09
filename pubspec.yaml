@@ -38,7 +38,8 @@ dependencies:
   http: ^1.2.1
   provider: ^6.1.2
   connectivity: ^3.0.6
-
+  share_it: ^0.7.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
