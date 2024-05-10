@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../helper_dropdownlist/helper.dart';
 
+
+//filter app bar (part of app bar which shows filter options)
 class FilterAppBar extends StatelessWidget {
   final TextEditingController searchController;
   final int totalName;
@@ -28,11 +30,12 @@ class FilterAppBar extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            //first row of filter including gender , rashi , alphabet
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 DropdownMenu(
-                  width: width * 0.3,
+                  width: width * 0.3,                                    
                   hintText: 'Gender',
                   dropdownMenuEntries: genderList,
                   onSelected: onSelectedGender,
@@ -54,6 +57,7 @@ class FilterAppBar extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
+            //second row of filter including search bar and total baby names
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

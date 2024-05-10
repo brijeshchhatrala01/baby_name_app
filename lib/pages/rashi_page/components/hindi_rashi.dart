@@ -7,7 +7,7 @@ class HindiRashi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //list for display gujrati rashi and appropriate images
+    //list for display Hindi rashi and appropriate images
     List rashiList = [
       ['मेष - अ,ल,इ', 'assets/images/mesh.png'],
       ['वृषभ - ब,व,उ', 'assets/images/vrishabh.png'],
@@ -23,6 +23,7 @@ class HindiRashi extends StatelessWidget {
       ['मीन - द,च,थ,झ', 'assets/images/mean.png'],
     ];
 
+    //send url according to rashi selected by user
     String getRashiHttpUrl(String rashi) {
       switch (rashi) {
         case 'मेष - अ,ल,इ':
@@ -54,6 +55,7 @@ class HindiRashi extends StatelessWidget {
       }
     }
 
+    //show rashi in listview
     return ListView.builder(
       itemCount: rashiList.length,
       itemBuilder: (context, index) {

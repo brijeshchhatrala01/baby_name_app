@@ -1,3 +1,4 @@
+//baby model for add baby data to database
 class BabyModel {
   final String baby_name;
   final String meaning;
@@ -15,6 +16,7 @@ class BabyModel {
     required this.isFavorite,
   });
 
+  //return baby data into map format
   Map toMap() => {
         'baby_name': baby_name,
         'meaning': meaning,

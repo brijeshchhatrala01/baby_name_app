@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../show_by_rashi.dart';
 
+//show rashi in English
 class EnglishRashi extends StatelessWidget {
   const EnglishRashi({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //list for display gujrati rashi and appropriate images
+    //list for display English rashi and appropriate images
     List rashiList = [
       ['Aries (A,L,E)', 'assets/images/mesh.png'],
       ['Taurus (B,U,V)', 'assets/images/vrishabh.png'],
@@ -23,6 +24,7 @@ class EnglishRashi extends StatelessWidget {
       ['Pisces (C,D,J,T)', 'assets/images/mean.png'],
     ];
 
+    //send url according to rashi selected by user
     String getRashiHttpUrl(String rashi) {
       switch (rashi) {
         case 'Aries (A,L,E)':
@@ -53,7 +55,7 @@ class EnglishRashi extends StatelessWidget {
           return '';
       }
     }
-
+    //show rashi in listview
     return ListView.builder(
       itemCount: rashiList.length,
       itemBuilder: (context, index) {
@@ -68,7 +70,7 @@ class EnglishRashi extends StatelessWidget {
                       url: getRashiHttpUrl(rashiList[index][0]),
                     ),
                   ));
-              print(rashiList[index]);
+             // print(rashiList[index]);
             },
             leading: Image.asset(
               rashiList[index][1],

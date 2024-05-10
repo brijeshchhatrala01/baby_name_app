@@ -23,6 +23,7 @@ class GujratiRashi extends StatelessWidget {
       ['મીન (અક્ષરો: દ,ચ,થ,ઝ)', 'assets/images/mean.png'],
     ];
 
+    //send url according to rashi selected by user
     String getRashiHttpUrl(String rashi) {
       switch (rashi) {
         case 'મેષ (અક્ષરો: અ,લ,ઇ)':
@@ -54,6 +55,7 @@ class GujratiRashi extends StatelessWidget {
       }
     }
 
+    //show rashi in listview
     return ListView.builder(
       itemCount: rashiList.length,
       itemBuilder: (context, index) {

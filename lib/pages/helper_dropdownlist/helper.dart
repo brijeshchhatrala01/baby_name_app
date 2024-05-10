@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//gender dropdownlist
 List<DropdownMenuEntry> genderList = const [
     DropdownMenuEntry(value: 'All', label: 'All'),
     DropdownMenuEntry(value: 'Boy', label: 'Boy'),
@@ -31,6 +32,7 @@ List<DropdownMenuEntry> genderList = const [
     ]
   ];
 
+  //alphabet dropdownlist
   List<DropdownMenuEntry> religion = [
     DropdownMenuEntry(
       value: "Hindu",

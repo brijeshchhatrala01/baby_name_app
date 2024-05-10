@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../baby_card/name_card.dart';
 
+//show baby according to rashi selected by user
 class ShowByRashi extends StatefulWidget {
   final String url;
   const ShowByRashi({super.key, required this.url});
@@ -58,56 +59,83 @@ class _ShowByRashiState extends State<ShowByRashi> {
       //print('in favorite method');
     }
 
-    return CustomScrollView(
-      slivers: [
-        SliverList.builder(
-          itemCount: babyList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-              child: ListTile(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return NameCard(
-                          name: babyList[index]['baby_name'],
-                          meaning: babyList[index]['meaning'],
-                          gender: babyList[index]['gender'],
-                          religion: babyList[index]['religion'],
-                          isFavorite: babyList[index]['is_favorite']);
-                    },
+    return babyList.isEmpty
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Image.asset(
+                  'assets/images/crying.png',
+                  width: 250,
+                  height: 200,
+                ),
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              Text('No Baby Name Found'),
+            ],
+          )
+        : CustomScrollView(
+            slivers: [
+              SliverList.builder(
+                itemCount: babyList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    child: ListTile(
+                      //show baby card
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return NameCard(
+                                name: babyList[index]['baby_name'],
+                                meaning: babyList[index]['meaning'],
+                                gender: babyList[index]['gender'],
+                                religion: babyList[index]['religion'],
+                                isFavorite: babyList[index]['is_favorite']);
+                          },
+                        );
+                      },
+                      tileColor: babyList[index]['gender'] == 'Boy'
+                          ? Colors.blue.shade200
+                          : Colors.pink.shade200,
+                      shape: ContinuousRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      trailing: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              toggleFavorite(
+                                  babyList[index]['baby_name'],
+                                  babyList[index]['is_favorite'] == 'false'
+                                      ? 'true'
+                                      : 'false');
+                            });
+                          },
+                          icon: babyList[index]['is_favorite'] == "true"
+                              ? const Icon(Icons.favorite)
+                              : const Icon(Icons.favorite_border_outlined)),
+                      title: Text(babyList[index]['baby_name']),
+                      subtitle: Text(babyList[index]['meaning']),
+                      //delete baby dailogue
+                      onLongPress: () {
+                        setState(() {
+                          showDeleteDialog(
+                              context, babyList[index]['baby_name']);
+                        });
+                      },
+                    ),
                   );
                 },
-                tileColor: babyList[index]['gender'] == 'Boy'
-                    ? Colors.blue.shade200
-                    : Colors.pink.shade200,
-                shape: ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                trailing: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        toggleFavorite(
-                            babyList[index]['baby_name'],
-                            babyList[index]['is_favorite'] == 'false'
-                                ? 'true'
-                                : 'false');
-                      });
-                    },
-                    icon: babyList[index]['is_favorite'] == "true"
-                        ? const Icon(Icons.favorite)
-                        : const Icon(Icons.favorite_border_outlined)),
-                title: Text(babyList[index]['baby_name']),
-                subtitle: Text(babyList[index]['meaning']),
-              ),
-            );
-          },
-        )
-      ],
-    );
+              )
+            ],
+          );
   }
 
+  //get data from database
   Future<List<dynamic>> getData(String babyPath) async {
     var resp = await http.get(
       Uri.parse(babyPath),
@@ -116,4 +144,39 @@ class _ShowByRashiState extends State<ShowByRashi> {
 
     return jsonDecode(resp.body);
   }
+}
+
+//method for delete baby
+Future<void> deleteBaby(String baby_name) async {
+  var resp = await http.post(
+    Uri.parse(
+        'https://zoological-wafer.000webhostapp.com/baby_name/deleteBaby.php'),
+    body: {
+      'baby_name': baby_name,
+    },
+  );
+}
+
+//show dailogue before delete baby
+showDeleteDialog(BuildContext context, String baby_name) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text('Are You Sure Want To Delete?'),
+        actions: [
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancle')),
+          ElevatedButton(
+              onPressed: () {
+                deleteBaby(baby_name).then((value) => Navigator.pop(context));
+              },
+              child: Text('Delete'))
+        ],
+      );
+    },
+  );
 }

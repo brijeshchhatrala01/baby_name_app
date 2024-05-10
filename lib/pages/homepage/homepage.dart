@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:baby_name_app/pages/add_name/add_name.dart';
 import 'package:baby_name_app/pages/baby_card/name_card.dart';
 import 'package:baby_name_app/pages/homepage/drawer/custom_nav_drawer.dart';
@@ -7,6 +9,7 @@ import 'dart:convert';
 
 import 'filterbar/filter_appbar.dart';
 
+//homepage of app
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
@@ -16,11 +19,13 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   var showListBy = "All";
-
+  //search controller
   final _searchController = TextEditingController();
 
+  //initial babyListLength
   int babyListLength = 0;
 
+  //different url for fetch data according to specofic filter
   var urlBabyAll =
       'https://zoological-wafer.000webhostapp.com/baby_name/view_baby.php';
   var urlBabySearch =
@@ -32,6 +37,7 @@ class _HomepageState extends State<Homepage> {
   var urlBabyFilterByAlphebet =
       'https://zoological-wafer.000webhostapp.com/baby_name/filterByAlphabet.php?filterword=';
 
+  //get data from database method
   Future<List<dynamic>> getData(String babyPath) async {
     var resp = await http.get(
       Uri.parse(babyPath),
@@ -43,6 +49,7 @@ class _HomepageState extends State<Homepage> {
     return jsonDecode(resp.body);
   }
 
+  //pass getdata to a babylist class with exoanded widget
   Widget setBabyList(Future<List<dynamic>> future) {
     return Expanded(
       child: BabyList(
@@ -51,6 +58,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
+  //show baby list according to particular filter with the use of swich case mechenism
   Widget pass() {
     switch (showListBy) {
       case 'searchBaby':
@@ -146,6 +154,7 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //default appbar
       appBar: AppBar(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
@@ -165,8 +174,11 @@ class _HomepageState extends State<Homepage> {
           ),
         ],
       ),
+      //navigation drawer
       drawer: const CustomNavDrawer(),
+      //floating actionbar for add baby
       floatingActionButton: FloatingActionButton(
+        //go to add baby page
         onPressed: () => goToAddBaby(),
         child: Image.asset(
           'assets/images/baby_name.png',
@@ -176,6 +188,7 @@ class _HomepageState extends State<Homepage> {
       ),
       body: Column(
         children: [
+          //filter app bar which show diff. filters
           FilterAppBar(
             searchController: _searchController,
             onPressedSearchBaby: () {
@@ -205,12 +218,14 @@ class _HomepageState extends State<Homepage> {
             },
             totalName: babyListLength,
           ),
-          pass()
+          //get baby list according to user's choice
+          pass(),
         ],
       ),
     );
   }
 
+  //navigate to add baby page
   goToAddBaby() {
     Navigator.push(
         context,
@@ -220,6 +235,7 @@ class _HomepageState extends State<Homepage> {
   }
 }
 
+//baby list widget
 class BabyList extends StatefulWidget {
   final Future<List<dynamic>> future;
   const BabyList({super.key, required this.future});
@@ -271,55 +287,116 @@ class _BabyListState extends State<BabyList> {
       //print('in favorite method');
     }
 
-    return CustomScrollView(
-      slivers: [
-        SliverList.builder(
-          itemCount: babyList.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-              child: ListTile(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return NameCard(
-                        name: babyList[index]['baby_name'],
-                        meaning: babyList[index]['meaning'],
-                        gender: babyList[index]['gender'],
-                        religion: babyList[index]['religion'],
-                        isFavorite: babyList[index]['is_favorite'],
-                      );
-                    },
+    return babyList.isEmpty
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Image.asset(
+                  'assets/images/crying.png',
+                  width: 250,
+                  height: 200,
+                ),
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              Text('No Baby Name Found'),
+            ],
+          )
+        : CustomScrollView(
+            slivers: [
+              SliverList.builder(
+                itemCount: babyList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    child: ListTile(
+                      //show baby card
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return NameCard(
+                              name: babyList[index]['baby_name'],
+                              meaning: babyList[index]['meaning'],
+                              gender: babyList[index]['gender'],
+                              religion: babyList[index]['religion'],
+                              isFavorite: babyList[index]['is_favorite'],
+                            );
+                          },
+                        );
+                      },
+                      tileColor: babyList[index]['gender'] == 'Boy'
+                          ? Colors.blue.shade200
+                          : Colors.pink.shade200,
+                      shape: ContinuousRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      //to delete baby
+                      onLongPress: () {
+                        setState(() {
+                          showDeleteDialog(
+                              context, babyList[index]['baby_name']);
+                        });
+                      },
+                      trailing: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            toggleFavorite(
+                                babyList[index]['baby_name'],
+                                babyList[index]['is_favorite'] == 'false'
+                                    ? 'true'
+                                    : 'false');
+                          });
+                        },
+                        icon: babyList[index]['is_favorite'] == "true"
+                            ? const Icon(Icons.favorite)
+                            : const Icon(Icons.favorite_border_outlined),
+                      ),
+                      title: Text(babyList[index]['baby_name']),
+                      subtitle: Text(babyList[index]['meaning']),
+                    ),
                   );
                 },
-                tileColor: babyList[index]['gender'] == 'Boy'
-                    ? Colors.blue.shade200
-                    : Colors.pink.shade200,
-                shape: ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                trailing: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      toggleFavorite(
-                          babyList[index]['baby_name'],
-                          babyList[index]['is_favorite'] == 'false'
-                              ? 'true'
-                              : 'false');
-                    });
-                  },
-                  icon: babyList[index]['is_favorite'] == "true"
-                      ? const Icon(Icons.favorite)
-                      : const Icon(Icons.favorite_border_outlined),
-                ),
-                title: Text(babyList[index]['baby_name']),
-                subtitle: Text(babyList[index]['meaning']),
-              ),
-            );
-          },
-        )
-      ],
-    );
+              )
+            ],
+          );
   }
+}
+
+//method for delete baby
+Future<void> deleteBaby(String baby_name) async {
+  var resp = await http.post(
+    Uri.parse(
+        'https://zoological-wafer.000webhostapp.com/baby_name/deleteBaby.php'),
+    body: {
+      'baby_name': baby_name,
+    },
+  );
+}
+
+//show dailogue before delete baby
+showDeleteDialog(BuildContext context, String baby_name) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text('Are You Sure Want To Delete?'),
+        actions: [
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancle')),
+          ElevatedButton(
+              onPressed: () {
+                deleteBaby(baby_name).then((value) => Navigator.pop(context));
+              },
+              child: Text('Delete'))
+        ],
+      );
+    },
+  );
 }

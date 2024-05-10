@@ -5,6 +5,7 @@ void main() {
   runApp(const MyApp());
 }
 
+//root widget
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Splash(),  
+      home: Splash(),
     );
   }
 }

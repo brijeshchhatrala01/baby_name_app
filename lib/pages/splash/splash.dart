@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../homepage/homepage.dart';
 
+//splash screen
 class Splash extends StatefulWidget {
   const Splash({super.key});
 
@@ -17,9 +18,11 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
+    //check user connectivity when app start
     checkConnectivity();
   }
 
+  //navigate to home page after 3 second
   navigateToHome() {
     // ignore: unused_local_variable
     Timer timer = Timer(const Duration(seconds: 3), () {
@@ -32,6 +35,7 @@ class _SplashState extends State<Splash> {
     });
   }
 
+  //show dailogue if network not available
   showNetworkDialouge() async {
     return showDialog(
       context: context,
@@ -53,6 +57,7 @@ class _SplashState extends State<Splash> {
     );
   }
 
+  //check user;s network availablity
   checkConnectivity() async {
     var connection = await Connectivity().checkConnectivity();
 

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../homepage/homepage.dart';
 
+//name card for display baby name, meanining and details
 class NameCard extends StatefulWidget {
   final String name;
   final String meaning;
@@ -23,6 +24,7 @@ class NameCard extends StatefulWidget {
 }
 
 class _NameCardState extends State<NameCard> {
+  //add or remove baby from favorite list
   void toggleFavorite(String baby_name, String is_favorite) async {
     var url = Uri.parse(
       'https://zoological-wafer.000webhostapp.com/baby_name/add_favorite.php',
@@ -36,6 +38,7 @@ class _NameCardState extends State<NameCard> {
 
   @override
   Widget build(BuildContext context) {
+    
     return CupertinoAlertDialog(
       insetAnimationCurve: Curves.fastOutSlowIn,
       title: Row(
@@ -47,12 +50,12 @@ class _NameCardState extends State<NameCard> {
               setState(() {
                 toggleFavorite(widget.name,
                     widget.isFavorite == 'false' ? 'true' : 'false');
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Homepage(),
-                  ),
-                );
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const Homepage(),
+                //   ),
+                // );
               });
             },
             icon: widget.isFavorite == 'true'

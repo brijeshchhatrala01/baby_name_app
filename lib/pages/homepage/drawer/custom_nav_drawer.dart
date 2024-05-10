@@ -6,6 +6,7 @@ import 'package:share_it/share_it.dart';
 import '../../favotite_baby/favorite_baby.dart';
 import '../../rashi_page/rashi_page.dart';
 
+//custom navigation drawer
 class CustomNavDrawer extends StatelessWidget {
   const CustomNavDrawer({super.key});
 
@@ -14,6 +15,7 @@ class CustomNavDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
+          //drawer header with app logo icon
           DrawerHeader(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -26,6 +28,7 @@ class CustomNavDrawer extends StatelessWidget {
           const SizedBox(
             height: 18,
           ),
+          //home listtile
           ListTile(
             leading: Image.asset(
               'assets/images/home.png',
@@ -33,9 +36,12 @@ class CustomNavDrawer extends StatelessWidget {
               height: 28,
             ),
             title: const Text('H O M E'),
+            //go to homepage
             onTap: () => Navigator.pop(context),
           ),
+          //rashi listtile
           ListTile(
+            //go to rashi page
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -49,7 +55,9 @@ class CustomNavDrawer extends StatelessWidget {
             ),
             title: const Text('R A S H I'),
           ),
+          //religion listtile
           ListTile(
+            //show religion dialogue box
             onTap: () => showReligionDialogue(context),
             leading: Image.asset(
               'assets/images/religion.png',
@@ -58,7 +66,9 @@ class CustomNavDrawer extends StatelessWidget {
             ),
             title: const Text('R E L I G I O N'),
           ),
+          //favorite listtile
           ListTile(
+            //go to favorite baby page
             onTap: () => goToFavorite(context),
             leading: Image.asset(
               'assets/images/favorite.png',
@@ -67,7 +77,9 @@ class CustomNavDrawer extends StatelessWidget {
             ),
             title: const Text('F A V O R I T'),
           ),
+          //share app listtile
           ListTile(
+            //share the app link details
             onTap: () => shareApp(),
             leading: Image.asset(
               'assets/images/share.png',
@@ -76,7 +88,9 @@ class CustomNavDrawer extends StatelessWidget {
             ),
             title: const Text('S H A R E'),
           ),
+          //about app developer listtile
           ListTile(
+            //show about app and developer dailogue
             onTap: () => showAboutDeveloper(context),
             leading: Image.asset(
               'assets/images/developer.png',
@@ -90,6 +104,7 @@ class CustomNavDrawer extends StatelessWidget {
     );
   }
 
+  //show religion dailogue to user
   Future<void> showReligionDialogue(BuildContext context) async {
     return showDialog(
       context: context,
@@ -175,7 +190,7 @@ class CustomNavDrawer extends StatelessWidget {
       },
     );
   }
-
+  //go to particular religion by tap event
   void goToShowByReligion(BuildContext context, String religion) {
     Navigator.push(
       context,
@@ -186,7 +201,7 @@ class CustomNavDrawer extends StatelessWidget {
       ),
     );
   }
-
+  //show dailogue about app and developer
   showAboutDeveloper(BuildContext context) {
     return showDialog(
       context: context,
@@ -208,6 +223,7 @@ class CustomNavDrawer extends StatelessWidget {
     );
   }
 
+  //share app with other user
   shareApp() async {
     ShareIt.text(
       content:
@@ -216,7 +232,7 @@ class CustomNavDrawer extends StatelessWidget {
     );
   }
 }
-
+//go to favorite baby list page
 goToFavorite(BuildContext context) {
   Navigator.push(
       context,

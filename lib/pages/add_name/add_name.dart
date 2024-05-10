@@ -5,6 +5,8 @@ import '../helper_dropdownlist/helper.dart';
 import '../model/baby_model.dart';
 import 'components/custom_textform.dart';
 
+
+//page for add name into baby database
 class AddName extends StatefulWidget {
   const AddName({super.key});
 
@@ -20,6 +22,7 @@ class _AddNameState extends State<AddName> {
   String rashiValue = '';
   String religionValue = '';
 
+  //method for add baby data to database
   void addBaby() {
     var url =
         "https://zoological-wafer.000webhostapp.com/baby_name/add_baby.php";
@@ -63,6 +66,7 @@ class _AddNameState extends State<AddName> {
                 const SizedBox(
                   height: 12,
                 ),
+                //baby name textformfield
                 CustomTextFormField(
                   controller: nameController,
                   keyboardType: TextInputType.name,
@@ -79,6 +83,7 @@ class _AddNameState extends State<AddName> {
                 const SizedBox(
                   height: 12,
                 ),
+                //baby meaning textformfields
                 CustomTextFormField(
                   controller: _meaningController,
                   keyboardType: TextInputType.text,
@@ -90,6 +95,7 @@ class _AddNameState extends State<AddName> {
                 const SizedBox(
                   height: 12,
                 ),
+                //dropdown menu for gender
                 DropdownMenu(
                   width: MediaQuery.of(context).size.width - 42,
                   leadingIcon: Padding(
@@ -112,6 +118,7 @@ class _AddNameState extends State<AddName> {
                 const SizedBox(
                   height: 12,
                 ),
+                //dropdownmenu for rashi
                 DropdownMenu(
                   width: MediaQuery.of(context).size.width - 42,
                   initialSelection: rashiList[0],
@@ -135,6 +142,7 @@ class _AddNameState extends State<AddName> {
                 const SizedBox(
                   height: 12,
                 ),
+                //dropdown menu for religion
                 DropdownMenu(
                   width: MediaQuery.of(context).size.width - 42,
                   hintText: "Religion",
@@ -157,6 +165,7 @@ class _AddNameState extends State<AddName> {
                 const SizedBox(
                   height: 18,
                 ),
+                //A D D Button 
                 GestureDetector(
                   onTap: () {
                     if (_key.currentState!.validate()) {

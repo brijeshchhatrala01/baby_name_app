@@ -5,6 +5,7 @@ import 'components/english_rashi.dart';
 import 'components/gujrati_rashi.dart';
 import 'components/hindi_rashi.dart';
 
+//rashi tabbar
 class RashiPage extends StatelessWidget {
   const RashiPage({super.key});
 
