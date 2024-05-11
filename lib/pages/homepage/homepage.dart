@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:baby_name_app/pages/add_name/add_name.dart';
 import 'package:baby_name_app/pages/baby_card/name_card.dart';
@@ -153,74 +154,77 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //default appbar
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        title: const Text('Baby Names'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                pass();
-              });
-            },
-            icon: Icon(Icons.refresh),
-          ),
-          IconButton(
-            onPressed: () => goToFavorite(context),
-            icon: const Icon(Icons.favorite_border_outlined),
-          ),
-        ],
-      ),
-      //navigation drawer
-      drawer: const CustomNavDrawer(),
-      //floating actionbar for add baby
-      floatingActionButton: FloatingActionButton(
-        //go to add baby page
-        onPressed: () => goToAddBaby(),
-        child: Image.asset(
-          'assets/images/baby_name.png',
-          width: 42,
-          height: 42,
+    return WillPopScope(
+      onWillPop: () => onBackButtonPressed(context),
+      child: Scaffold(
+        //default appbar
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          title: const Text('Baby Names'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  pass();
+                });
+              },
+              icon: Icon(Icons.refresh),
+            ),
+            IconButton(
+              onPressed: () => goToFavorite(context),
+              icon: const Icon(Icons.favorite_border_outlined),
+            ),
+          ],
         ),
-      ),
-      body: Column(
-        children: [
-          //filter app bar which show diff. filters
-          FilterAppBar(
-            searchController: _searchController,
-            onPressedSearchBaby: () {
-              setState(() {
-                if (_searchController.text.isNotEmpty) {
-                  showListBy = 'searchBaby';
-                }
-              });
-            },
-            onSelectedAlphabet: (alphabet) {
-              setState(() {
-                showListBy = alphabet;
-                _searchController.clear();
-              });
-            },
-            onSelectedGender: (gender) {
-              setState(() {
-                showListBy = gender;
-                _searchController.clear();
-              });
-            },
-            onSelectedRashi: (rashi) {
-              setState(() {
-                showListBy = rashi;
-                _searchController.clear();
-              });
-            },
-            totalName: babyListLength,
+        //navigation drawer
+        drawer: const CustomNavDrawer(),
+        //floating actionbar for add baby
+        floatingActionButton: FloatingActionButton(
+          //go to add baby page
+          onPressed: () => goToAddBaby(),
+          child: Image.asset(
+            'assets/images/baby_name.png',
+            width: 42,
+            height: 42,
           ),
-          //get baby list according to user's choice
-          pass(),
-        ],
+        ),
+        body: Column(
+          children: [
+            //filter app bar which show diff. filters
+            FilterAppBar(
+              searchController: _searchController,
+              onPressedSearchBaby: () {
+                setState(() {
+                  if (_searchController.text.isNotEmpty) {
+                    showListBy = 'searchBaby';
+                  }
+                });
+              },
+              onSelectedAlphabet: (alphabet) {
+                setState(() {
+                  showListBy = alphabet;
+                  _searchController.clear();
+                });
+              },
+              onSelectedGender: (gender) {
+                setState(() {
+                  showListBy = gender;
+                  _searchController.clear();
+                });
+              },
+              onSelectedRashi: (rashi) {
+                setState(() {
+                  showListBy = rashi;
+                  _searchController.clear();
+                });
+              },
+              totalName: babyListLength,
+            ),
+            //get baby list according to user's choice
+            pass(),
+          ],
+        ),
       ),
     );
   }
@@ -232,6 +236,28 @@ class _HomepageState extends State<Homepage> {
         MaterialPageRoute(
           builder: (context) => const AddName(),
         ));
+  }
+
+  Future<bool> onBackButtonPressed(BuildContext context) async {
+    bool exitApp = await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Do You Want To Close The App?'),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text('Cancle'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text('Exit'),
+            ),
+          ],
+        );
+      },
+    );
+    return exitApp ?? false;
   }
 }
 
