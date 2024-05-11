@@ -23,6 +23,7 @@ class CustomTextFormField extends StatelessWidget {
         if (value!.isEmpty) {
           return 'please enter field value';
         }
+        return null;
       },
       keyboardType: keyboardType,
       decoration: InputDecoration(

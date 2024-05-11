@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -73,7 +75,7 @@ class _ShowByReligion extends State<ShowByReligion> {
               const SizedBox(
                 height: 18,
               ),
-              Text('No Baby Name Found'),
+              const Text('No Baby Name Found'),
             ],
           )
         : CustomScrollView(
@@ -163,18 +165,18 @@ showDeleteDialog(BuildContext context, String baby_name) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Text('Are You Sure Want To Delete?'),
+        title: const Text('Are You Sure Want To Delete?'),
         actions: [
           ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancle')),
+              child: const Text('Cancle')),
           ElevatedButton(
               onPressed: () {
                 deleteBaby(baby_name).then((value) => Navigator.pop(context));
               },
-              child: Text('Delete'))
+              child: const Text('Delete'))
         ],
       );
     },

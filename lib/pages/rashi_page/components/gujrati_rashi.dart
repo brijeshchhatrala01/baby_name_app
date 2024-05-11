@@ -71,7 +71,6 @@ class GujratiRashi extends StatelessWidget {
                       url:getRashiHttpUrl(rashiList[index][0]),
                     ),
                   ));
-              print(rashiList[index]);
             },
             leading: Image.asset(
               rashiList[index][1],

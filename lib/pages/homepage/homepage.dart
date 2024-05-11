@@ -1,5 +1,6 @@
+// ignore_for_file: unused_local_variable, deprecated_member_use, non_constant_identifier_names
+
 import 'dart:async';
-import 'dart:io';
 
 import 'package:baby_name_app/pages/add_name/add_name.dart';
 import 'package:baby_name_app/pages/baby_card/name_card.dart';
@@ -169,7 +170,7 @@ class _HomepageState extends State<Homepage> {
                   pass();
                 });
               },
-              icon: Icon(Icons.refresh),
+              icon: const Icon(Icons.refresh),
             ),
             IconButton(
               onPressed: () => goToFavorite(context),
@@ -247,17 +248,17 @@ class _HomepageState extends State<Homepage> {
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text('Cancle'),
+              child: const Text('Cancle'),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: Text('Exit'),
+              child: const Text('Exit'),
             ),
           ],
         );
       },
     );
-    return exitApp ?? false;
+    return exitApp;
   }
 }
 
@@ -327,7 +328,7 @@ class _BabyListState extends State<BabyList> {
               const SizedBox(
                 height: 18,
               ),
-              Text('No Baby Name Found'),
+              const Text('No Baby Name Found'),
             ],
           )
         : CustomScrollView(
@@ -409,18 +410,18 @@ showDeleteDialog(BuildContext context, String baby_name) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Text('Are You Sure Want To Delete?'),
+        title: const Text('Are You Sure Want To Delete?'),
         actions: [
           ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancle')),
+              child: const Text('Cancle')),
           ElevatedButton(
               onPressed: () {
                 deleteBaby(baby_name).then((value) => Navigator.pop(context));
               },
-              child: Text('Delete'))
+              child: const Text('Delete'))
         ],
       );
     },

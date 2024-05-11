@@ -39,7 +39,6 @@ class _AddNameState extends State<AddName> {
       body: baby.toMap(),
     );
     Navigator.pop(context);
-    print('Baby Added!!');
   }
 
   final _key = GlobalKey<FormState>();

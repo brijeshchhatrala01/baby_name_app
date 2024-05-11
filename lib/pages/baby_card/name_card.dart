@@ -1,8 +1,9 @@
+// ignore_for_file: unused_local_variable, non_constant_identifier_names, avoid_print
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../homepage/homepage.dart';
 
 //name card for display baby name, meanining and details
 class NameCard extends StatefulWidget {

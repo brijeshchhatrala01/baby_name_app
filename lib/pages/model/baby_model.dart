@@ -1,4 +1,6 @@
 //baby model for add baby data to database
+// ignore_for_file: non_constant_identifier_names
+
 class BabyModel {
   final String baby_name;
   final String meaning;
